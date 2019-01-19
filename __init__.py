@@ -34,7 +34,7 @@ bpy.types.Scene.epbrb_autonames = BoolProperty(
 bpy.types.Scene.epbrb_path = StringProperty(
     name = "Directory Path",
     description = "Directory where all the textures will be saved",
-    default = bpy.context.blend_data.filepath,
+    default = "/tmp\\",
     subtype = 'DIR_PATH'
 )
 
