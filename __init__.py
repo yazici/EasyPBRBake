@@ -18,7 +18,7 @@ def update_autonames(self, context):
     scn = context.scene
     
     if scn.epbrb_autonames:
-        name = bpy.path.basename(bpy.context.blend_data.filepath).split('.')[0]
+        name = 'bake' # bpy.path.basename(bpy.context.blend_data.filepath).split('.')[0]
         scn.epbrb_base_name = name
         scn.epbrb_albedo_name = name + '_albedo'
         scn.epbrb_metallic_name = name + '_metallic'
@@ -41,7 +41,7 @@ bpy.types.Scene.epbrb_path = StringProperty(
 bpy.types.Scene.epbrb_base_name = StringProperty(
     name = "Base Name",
     description = "Base name for the textures when using automatic names",
-    default = bpy.path.basename(bpy.context.blend_data.filepath).split('.')[0]
+    default = 'bake'
 )
 
 bpy.types.Scene.epbrb_x_res = IntProperty(
