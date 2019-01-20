@@ -2,7 +2,7 @@ bl_info = {
     "name": "Easy PBR Bake",
     "description": "Helper for baking PBR textures from Principled Shader",
     "author": "DwanaGames",
-    "version": (0, 0, 0, 1),
+    "version": (0, 0, 1, 0),
     "blender": (2, 80, 0),
     "location": "Properties > Render",
     "category": "Render"
@@ -12,7 +12,9 @@ import bpy
 from bpy.types import Panel
 from bpy.props import BoolProperty, StringProperty, IntProperty, FloatVectorProperty, FloatProperty
 
-from . easy_pbr_bake import EasyPBRBake
+from .easy_pbr_bake import EasyPBRBake
+
+DEF_NAME = "bake"
 
 def update_autonames(self, context):
     scn = context.scene
@@ -41,7 +43,7 @@ bpy.types.Scene.epbrb_path = StringProperty(
 bpy.types.Scene.epbrb_base_name = StringProperty(
     name = "Base Name",
     description = "Base name for the textures when using automatic names",
-    default = 'bake'
+    default = DEF_NAME
 )
 
 bpy.types.Scene.epbrb_x_res = IntProperty(
@@ -101,7 +103,7 @@ bpy.types.Scene.epbrb_enable_albedo = BoolProperty(
 bpy.types.Scene.epbrb_albedo_name = StringProperty(
     name = "Texture Name",
     description = "Name for the albedo texture file",
-    default = bpy.path.basename(bpy.context.blend_data.filepath).split('.')[0] + '_albedo'
+    default = DEF_NAME + '_albedo'
 )
 
 bpy.types.Scene.epbrb_albedo_clear = BoolProperty(
@@ -130,7 +132,7 @@ bpy.types.Scene.epbrb_enable_metallic = BoolProperty(
 bpy.types.Scene.epbrb_metallic_name = StringProperty(
     name = "Texture Name",
     description = "Name for the metallic texture file",
-    default = bpy.path.basename(bpy.context.blend_data.filepath).split('.')[0] + '_metallic'
+    default = DEF_NAME + '_metallic'
 )
 
 bpy.types.Scene.epbrb_metallic_clear = BoolProperty(
@@ -159,7 +161,7 @@ bpy.types.Scene.epbrb_enable_roughness = BoolProperty(
 bpy.types.Scene.epbrb_roughness_name = StringProperty(
     name = "Texture Name",
     description = "Name for the roughness texture file",
-    default = bpy.path.basename(bpy.context.blend_data.filepath).split('.')[0] + '_roughness'
+    default = DEF_NAME + '_roughness'
 )
 
 bpy.types.Scene.epbrb_roughness_clear = BoolProperty(
