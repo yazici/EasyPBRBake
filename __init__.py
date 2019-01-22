@@ -122,6 +122,35 @@ bpy.types.Scene.epbrb_albedo_clear_color = FloatVectorProperty(
     subtype = 'COLOR_GAMMA'
 )
 
+########### Packed #######################
+bpy.types.Scene.epbrb_channel_pack = BoolProperty(
+    name = 'Channel Packing', 
+    description = 'Pack the metallic, roughness and ao bakes into a single image',
+    default = False
+)
+
+bpy.types.Scene.epbrb_packed_name = StringProperty(
+    name = "Texture Name",
+    description = "Name for the channel packed texture file",
+    default = DEF_NAME + '_packed'
+)
+
+bpy.types.Scene.epbrb_packed_clear = BoolProperty(
+    name = "Clear Image", 
+    description = "Clear packed image before baking",
+    default = True
+)
+
+bpy.types.Scene.epbrb_packed_clear_color = FloatVectorProperty(
+    name = 'Clear Color', 
+    description = 'Packed texture clear color',
+    size = 4,
+    min = 0.0,
+    max = 1.0,
+    default = (0.0, 0.0, 0.0, 1.0),
+    subtype = 'COLOR'
+)
+
 ########### Metallic #######################
 bpy.types.Scene.epbrb_enable_metallic = BoolProperty(
     name = 'Enable Metallic', 
@@ -225,6 +254,8 @@ class EPBRB_PT_main_panel(Panel):
             row.active = False
             row.enabled = False
         
+        layout.prop(scn, 'epbrb_channel_pack')
+        
         layout.operator('easy_pbr.bake')
         
         layout.prop(scn, 'epbrb_enable_albedo')
@@ -240,31 +271,46 @@ class EPBRB_PT_main_panel(Panel):
         if scn.epbrb_albedo_clear:
             layout.prop(scn, 'epbrb_albedo_clear_color')
             
-        layout.prop(scn, 'epbrb_enable_metallic')
-        row = layout.row()
-        row.prop(scn, 'epbrb_metallic_name')
-        if scn.epbrb_autonames:
-            row.active = False
-            row.enabled = False
+        if scn.epbrb_channel_pack:
+            layout.prop(scn, 'epbrb_enable_metallic')
+            layout.prop(scn, 'epbrb_enable_roughness')
+            row = layout.row()
+            row.prop(scn, 'epbrb_packed_name')
+            if scn.epbrb_autonames:
+                row.active = False
+                row.enabled = False
+            else:
+                row.active = True
+                row.enabled = True
+            layout.prop(scn, 'epbrb_packed_clear')
+            if scn.epbrb_packed_clear:
+                layout.prop(scn, 'epbrb_packed_clear_color')
         else:
-            row.active = True
-            row.enabled = True
-        layout.prop(scn, 'epbrb_metallic_clear')
-        if scn.epbrb_roughness_clear:
-            layout.prop(scn, 'epbrb_metallic_clear_color')
-        
-        layout.prop(scn, 'epbrb_enable_roughness')
-        row = layout.row()
-        row.prop(scn, 'epbrb_roughness_name')
-        if scn.epbrb_autonames:
-            row.active = False
-            row.enabled = False
-        else:
-            row.active = True
-            row.enabled = True
-        layout.prop(scn, 'epbrb_roughness_clear')
-        if scn.epbrb_roughness_clear:
-            layout.prop(scn, 'epbrb_roughness_clear_color')
+            layout.prop(scn, 'epbrb_enable_metallic')
+            row = layout.row()
+            row.prop(scn, 'epbrb_metallic_name')
+            if scn.epbrb_autonames:
+                row.active = False
+                row.enabled = False
+            else:
+                row.active = True
+                row.enabled = True
+            layout.prop(scn, 'epbrb_metallic_clear')
+            if scn.epbrb_metallic_clear:
+                layout.prop(scn, 'epbrb_metallic_clear_color')
+            
+            layout.prop(scn, 'epbrb_enable_roughness')
+            row = layout.row()
+            row.prop(scn, 'epbrb_roughness_name')
+            if scn.epbrb_autonames:
+                row.active = False
+                row.enabled = False
+            else:
+                row.active = True
+                row.enabled = True
+            layout.prop(scn, 'epbrb_roughness_clear')
+            if scn.epbrb_roughness_clear:
+                layout.prop(scn, 'epbrb_roughness_clear_color')
 
 class EPBRB_PT_albedo_section(Panel):
     bl_label = 'Albedo'
@@ -277,6 +323,23 @@ class EPBRB_PT_albedo_section(Panel):
 
     def draw(self, context):
         layout = self.layout
+        scn = context.scene
+        
+        layout.use_property_split = True
+        layout.use_property_decorate = False
+        
+        row = layout.row()
+        row.prop(scn, 'epbrb_albedo_name')
+        if scn.epbrb_autonames:
+            row.active = False
+            row.enabled = False
+        else:
+            row.active = True
+            row.enabled = True
+        layout.prop(scn, 'epbrb_albedo_clear')
+        if scn.epbrb_albedo_clear:
+            layout.prop(scn, 'epbrb_albedo_clear_color')
+        
         
     def draw_header(self, context):
         layout = self.layout
