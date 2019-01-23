@@ -64,7 +64,9 @@ bpy.types.Scene.epbrb_margin = IntProperty(
      name = "Margin",
      description = "Extends the baked result as a post process filter",
      default = 16,
-     subtype = 'PIXEL'
+     subtype = 'PIXEL',
+     min = 0,
+     max = 64
 )
 
 bpy.types.Scene.epbrb_selected_to_active = BoolProperty(
