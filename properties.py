@@ -12,7 +12,7 @@ class EasyPBRBakeProp(PropertyGroup):
     
     autonames = BoolProperty(
         name = "Automatic Names", 
-        description = "Automatically generate the names for the textures",
+        description = "Automatically generate the names of the textures",
         default = True,
         update = update_names
     )
