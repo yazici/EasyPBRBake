@@ -9,6 +9,10 @@ class EasyPBRBakeProp(PropertyGroup):
         if self.autonames:
             self.albedo_name = self.base_name + '_albedo'
             self.packed_name = self.base_name + '_packed'
+            self.metallic_name = self.base_name + '_metallic'
+            self.roughness_name = self.base_name + '_roughness'
+            self.ao_name = self.base_name + '_ao'
+            self.normal_name = self.base_name + '_normal'
     
     autonames = BoolProperty(
         name = "Automatic Names", 
